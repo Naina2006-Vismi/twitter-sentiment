@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 
 # ─── Config ────────────────────────────────────────────────────
-API_URL = "http://localhost:8000"
+API_URL = "https://twitter-sentiment-xegm.onrender.com"
 
 st.set_page_config(
     page_title="Twitter Sentiment Analyzer",
