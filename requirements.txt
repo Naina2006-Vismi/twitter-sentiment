@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+scikit-learn
+joblib
+nltk
+emoji
+langdetect
+requests
+python-dotenv
+pydantic
+streamlit
+plotly
+pandas
