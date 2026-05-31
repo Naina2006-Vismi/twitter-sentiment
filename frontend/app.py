@@ -7,7 +7,7 @@ import pandas as pd
 # ─── Auto-wake backend on startup ──────────────────────────────
 def wake_backend():
     try:
-        response = requests.get(f"{API_URL}/health", timeout=60)
+        response = requests.get(f"{API_URL}/health", timeout=90)
         if response.status_code == 200:
             return True
     except:
@@ -17,7 +17,8 @@ with st.spinner("🔄 Connecting to backend... (may take 30-60 seconds on first 
     backend_alive = wake_backend()
 
 if not backend_alive:
-    st.error("⚠️ Backend is unavailable. Please try refreshing the page in 1 minute.")
+    st.warning("⚠️ Backend is still warming up. Please refresh the page in 30 seconds.")
+    st.info("💡 Free tier servers sleep after inactivity. First load takes 60-90 seconds.")
     st.stop()
 
 # ─── Config ────────────────────────────────────────────────────
