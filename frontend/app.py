@@ -4,24 +4,7 @@ import plotly.express as px
 import pandas as pd
 
 
-# ─── Auto-wake backend on startup ──────────────────────────────
-def wake_backend():
-    try:
-        response = requests.get(f"{API_URL}/health", timeout=90)
-        return response.status_code == 200
-    except:
-        return False
 
-backend_alive = wake_backend()
-if not backend_alive:
-    st.warning("⚠️ Backend may be warming up. If predictions fail, refresh in 30 seconds.")
-    st.info("💡 Free tier servers sleep after inactivity. First load takes 60-90 seconds.")
-    
-
-if not backend_alive:
-    st.warning("⚠️ Backend is still warming up. Please refresh the page in 30 seconds.")
-    st.info("💡 Free tier servers sleep after inactivity. First load takes 60-90 seconds.")
-    st.stop()
 
 # ─── Config ────────────────────────────────────────────────────
 API_URL = "https://twitter-sentiment-xegm.onrender.com"
