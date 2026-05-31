@@ -3,6 +3,23 @@ import requests
 import plotly.express as px
 import pandas as pd
 
+
+# ─── Auto-wake backend on startup ──────────────────────────────
+def wake_backend():
+    try:
+        response = requests.get(f"{API_URL}/health", timeout=60)
+        if response.status_code == 200:
+            return True
+    except:
+        return False
+
+with st.spinner("🔄 Connecting to backend... (may take 30-60 seconds on first load)"):
+    backend_alive = wake_backend()
+
+if not backend_alive:
+    st.error("⚠️ Backend is unavailable. Please try refreshing the page in 1 minute.")
+    st.stop()
+
 # ─── Config ────────────────────────────────────────────────────
 API_URL = "https://twitter-sentiment-xegm.onrender.com"
 
