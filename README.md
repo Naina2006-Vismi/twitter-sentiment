@@ -1,163 +1,123 @@
-# 🐦 Twitter Persevex — Tweet Sentiment Analyzer
+# 🐦 Twitter Sentiment Analyzer
+### Full-Stack ML Deployment — Internship Capstone Project
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-2.0.0-009688?logo=fastapi&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?logo=streamlit&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-2.0.0-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://docker.com)
+[![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?logo=render&logoColor=white)](https://render.com)
 
 ---
 
-## 📌 About the Project
+## 🔗 Live URLs
 
-**Twitter Persevex** is a full-stack sentiment analysis application that classifies tweets and short-form text into **Positive**, **Negative**, or **Neutral** sentiments in real time.
+| Service | URL |
+|---------|-----|
+| **Frontend UI** | https://sentiment-frontend-no7g.onrender.com |
+| **Backend API** | https://twitter-sentiment-xegm.onrender.com |
+| **API Docs (Swagger)** | https://twitter-sentiment-xegm.onrender.com/docs |
 
-### Why does this exist?
+---
 
-Understanding public sentiment around topics — whether a brand, a news story, or a social issue — has real value. Existing tools are often heavyweight, API-rate-limited, or black-box. Persevex is lightweight, self-hosted, and fully transparent: a trained TF-IDF + Logistic Regression model serves predictions through a FastAPI backend, with a polished Streamlit frontend that requires zero frontend experience to run or extend.
+## 📌 Project Overview
 
-### Key Highlights
+**Twitter Sentiment Analyzer** is a production-grade full-stack ML application that classifies tweets and short-form text into **Positive**, **Negative**, or **Neutral** sentiments in real time.
 
-- **Tweet Sentiment Analyzer** — Classify any English tweet or short text with sentence-level breakdown and a reliability score
-- **Live News Analyzer** — Fetch the latest news articles by topic (via NewsAPI) and visualize their aggregate sentiment with an interactive pie chart
-- **API Stats Dashboard** — Live bar charts and metrics of all predictions made since the server started
-- **Slang & Emoji Awareness** — A curated slang dictionary (e.g. `"bussin"` → `"amazing"`) and emoji-to-text conversion keep Gen-Z tweets correctly classified
-- **Negation Handling** — Tokens like `"not_good"` are preserved through the pipeline so negations don't silently flip sentiment
-- **Batch Endpoint** — Submit up to 50 texts in a single API call
+Built as an internship capstone project to demonstrate the complete journey from a trained ML model in a Jupyter notebook to a live, publicly accessible web application.
+
+### What makes this different from a basic project
+
+- **Three models evaluated** — TF-IDF + Logistic Regression, DistilBERT, and BERTweet. Deployed TF-IDF for production due to memory constraints on free cloud infrastructure
+- **Overfitting detected and fixed** — training/test gap reduced from 7.9% to 2.74%
+- **Enhanced NLP pipeline** — emoji conversion, slang dictionary, negation handling, lemmatization, language detection
+- **Live news analysis** — fetches real headlines via NewsAPI and analyzes sentiment in real time
+- **Reliability scoring** — every prediction comes with a reliability label (High/Medium/Low) based on confidence and sarcasm detection
+- **Batch prediction endpoint** — process up to 50 texts in a single API call
+- **UptimeRobot monitoring** — backend kept alive 24/7 on free tier
 
 ---
 
 ## 🛠 Tech Stack
 
 | Layer | Technology |
-|---|---|
-| **Backend API** | [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) |
-| **Frontend UI** | [Streamlit](https://streamlit.io/) + [Plotly](https://plotly.com/python/) |
+|-------|-----------|
 | **ML Model** | Scikit-learn — TF-IDF Vectorizer + Logistic Regression |
-| **NLP Pipeline** | NLTK (tokenization, lemmatization, POS tagging, stopwords) |
-| **Emoji Handling** | `emoji` library (demojize) |
-| **Language Detection** | `langdetect` |
-| **News Integration** | [NewsAPI](https://newsapi.org/) via `requests` |
-| **Config Management** | `python-dotenv` |
-| **Model Serialization** | `joblib` (`.pkl` files) |
-| **Language** | Python 3.11+ |
+| **NLP Pipeline** | NLTK — tokenization, lemmatization, POS tagging, stopwords |
+| **Backend API** | FastAPI + Uvicorn |
+| **Frontend UI** | Streamlit + Plotly |
+| **News Integration** | NewsAPI via requests |
+| **Emoji Handling** | emoji library (demojize) |
+| **Language Detection** | langdetect |
+| **Serialization** | joblib (.pkl files) |
+| **Containerization** | Docker |
+| **Cloud Hosting** | Render (free tier) |
+| **Uptime Monitoring** | UptimeRobot |
+| **Version Control** | Git + GitHub |
 
 ---
 
-## 🚀 Getting Started
+## 📊 Model Performance
 
-### Prerequisites
+| Metric | Value |
+|--------|-------|
+| Algorithm | Logistic Regression |
+| Vectorizer | TF-IDF (75K features, bigrams, sublinear_tf) |
+| Training samples | 200,000 tweets |
+| Test accuracy | **77.00%** |
+| Train accuracy | 80.68% |
+| Overfitting gap | **2.74%** (healthy) |
+| Baseline (random) | 50% |
 
-- Python **3.11** or higher
-- A free [NewsAPI](https://newsapi.org/register) API key (required for the Live News Analyzer feature)
-- `pip` (comes bundled with Python)
+### Models evaluated
 
-### 1 — Clone the Repository
+| Model | Accuracy | Size | Deployed |
+|-------|----------|------|----------|
+| TF-IDF + Logistic Regression | 77.00% | 21 MB | ✅ Yes |
+| DistilBERT | 81.30% | 268 MB | ❌ Memory constraints |
+| BERTweet | ~85-88% | 500+ MB | ❌ Memory constraints |
 
-```bash
-git clone https://github.com/your-username/twitter-persevex.git
-cd twitter-persevex
-```
-
-### 2 — Create and Activate a Virtual Environment
-
-```bash
-# Create the environment
-python -m venv venv
-
-# Activate — macOS / Linux
-source venv/bin/activate
-
-# Activate — Windows (PowerShell)
-.\venv\Scripts\Activate.ps1
-```
-
-### 3 — Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-> **Note:** NLTK corpora (`punkt`, `stopwords`, `wordnet`, `averaged_perceptron_tagger`) are downloaded automatically on the first run.
-
-### 4 — Configure Environment Variables
-
-Create a `.env` file in the project root (or rename the existing one):
-
-```bash
-cp .env.example .env   # if an example file exists, otherwise create manually
-```
-
-Then open `.env` and add your NewsAPI key:
-
-```ini
-NEWS_API_KEY=your_newsapi_key_here
-```
-
-> The `.env` file is already listed in `.gitignore` — your key will **not** be committed.
-
-### 5 — Start the Backend API
-
-```bash
-uvicorn app.main:app --reload --port 8000
-```
-
-The API will be available at `http://localhost:8000`.
-Interactive Swagger docs are auto-generated at `http://localhost:8000/docs`.
-
-### 6 — Start the Frontend
-
-Open a **second terminal** (with the virtual environment activated) and run:
-
-```bash
-streamlit run frontend/app.py
-```
-
-The Streamlit UI will open automatically in your browser at `http://localhost:8501`.
+**Deployment decision:** TF-IDF chosen for production — instant inference, 21MB model size fits free cloud tier, no GPU required.
 
 ---
 
-## 📖 Usage
+## 🚀 API Endpoints
 
-### Via the Streamlit UI
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Server liveness check |
+| GET | `/stats` | Usage statistics dashboard |
+| POST | `/predict` | Single text sentiment analysis |
+| POST | `/batch_predict` | Batch analysis (up to 50 texts) |
+| POST | `/topic_sentiment` | Live news sentiment by topic |
 
-Navigate between three pages using the sidebar:
+### Example — POST /predict
 
-- **Tweet Sentiment** — Paste any tweet (up to 2800 characters) and click *Analyze Sentiment*
-- **Live News Analyzer** — Enter a topic keyword (e.g. `Tesla`, `climate change`) and click *Analyze News*
-- **API Stats** — View a live dashboard of total requests, average confidence, and sentiment distribution
-
----
-
-### Via the REST API
-
-#### `POST /predict` — Single Text Analysis
-
-```bash
-curl -X POST "http://localhost:8000/predict" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "I absolutely love this new update, it slaps!"}'
+**Request:**
+```json
+{
+  "text": "I absolutely love this new phone, it's incredible"
+}
 ```
 
-**Example Response:**
-
+**Response:**
 ```json
 {
   "request_id": "a1b2c3d4",
-  "input_text": "I absolutely love this new update, it slaps!",
-  "char_count": 44,
+  "input_text": "I absolutely love this new phone, it's incredible",
+  "char_count": 49,
   "language": "English",
   "overall_sentiment": "positive",
-  "overall_confidence": 0.9312,
+  "overall_confidence": 0.9433,
   "sentence_count": 1,
   "sentences": [
     {
-      "sentence": "I absolutely love this new update, it slaps!",
+      "sentence": "I absolutely love this new phone, it's incredible",
       "sentiment": "positive",
-      "confidence": 0.9312
+      "confidence": 0.9433
     }
   ],
   "model_version": "2.0.0",
-  "processing_time_ms": 14.5,
+  "processing_time_ms": 18.5,
   "reliability_score": "High (Good confidence)",
   "warning": null
 }
@@ -165,173 +125,154 @@ curl -X POST "http://localhost:8000/predict" \
 
 ---
 
-#### `POST /batch_predict` — Batch Analysis (up to 50 texts)
-
-```bash
-curl -X POST "http://localhost:8000/batch_predict" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "texts": [
-      "This product is amazing!",
-      "Worst experience I have ever had.",
-      "The package arrived on Tuesday."
-    ]
-  }'
-```
-
----
-
-#### `POST /topic_sentiment` — Live News Sentiment by Topic
-
-```bash
-curl -X POST "http://localhost:8000/topic_sentiment" \
-  -H "Content-Type: application/json" \
-  -d '{"topic": "OpenAI", "count": 5}'
-```
-
-**Example Response (abbreviated):**
-
-```json
-{
-  "request_id": "f9e8d7c6",
-  "topic": "OpenAI",
-  "total_articles": 5,
-  "overall_sentiment": "positive",
-  "positive_count": 3,
-  "negative_count": 1,
-  "neutral_count": 1,
-  "articles": [ ... ],
-  "processing_time_ms": 423.7
-}
-```
-
----
-
-#### `GET /health` — Health Check
-
-```bash
-curl http://localhost:8000/health
-```
-
-```json
-{
-  "status": "ok",
-  "model": "TF-IDF + Logistic Regression",
-  "model_version": "2.0.0",
-  "uptime": "2025-05-28T19:44:00.000000"
-}
-```
-
----
-
-#### `GET /stats` — Usage Statistics
-
-```bash
-curl http://localhost:8000/stats
-```
-
-```json
-{
-  "total_requests": 42,
-  "sentiment_counts": { "positive": 22, "negative": 13, "neutral": 7 },
-  "average_confidence": 0.8471,
-  "uptime": "2025-05-28T19:44:00.000000"
-}
-```
-
----
-
-### Reliability Score Guide
-
-| Score | Meaning |
-|---|---|
-| `High (Good confidence)` | Confidence ≥ 85% — strong prediction |
-| `Medium (Moderate confidence)` | Confidence 75–84% — reasonable prediction |
-| `Medium (Uncertain confidence)` | Confidence 65–74% — treat with care |
-| `Low (Low confidence)` | Confidence < 65% — model is unsure |
-| `Low (Short text)` | Fewer than 4 words — insufficient signal |
-| `Low (Sarcasm detected)` | Sarcasm signals found — prediction may be inverted |
-
----
-
 ## 🗂 Project Structure
 
 ```
-twitter-persevex/
+twitter-sentiment/
 ├── app/
-│   ├── main.py              # FastAPI application, routes, and response models
-│   └── utils.py             # Text cleaning, negation handling, slang replacement
+│   ├── main.py              # FastAPI application — 5 endpoints
+│   └── utils.py             # Text cleaning utilities
 ├── frontend/
-│   └── app.py               # Streamlit UI (3 pages)
+│   └── app.py               # Streamlit UI — 3 pages
 ├── saved_model/
-│   ├── sentiment_model.pkl  # Trained Logistic Regression model
+│   ├── sentiment_model.pkl  # Trained Logistic Regression
 │   ├── tfidf_vectorizer.pkl # Fitted TF-IDF vectorizer
-│   └── utils.py             # Shared NLP utilities + reliability scoring
+│   └── utils.py             # Shared NLP pipeline
 ├── model/
-│   └── sentiment_training.ipynb  # Model training notebook
-├── requirements.txt
-├── .env                     # API keys (not committed)
-└── .gitignore
+│   └── sentiment_training.ipynb  # Full training notebook
+├── Dockerfile               # Container build instructions
+├── requirements.txt         # Python dependencies
+├── .gitignore               # Excludes .env, __pycache__
+└── README.md
 ```
 
 ---
 
-## 🤝 Contributing
+## ⚙️ NLP Pipeline
 
-Contributions, bug reports, and feature requests are welcome! Here's how to get involved:
-
-1. **Fork** the repository
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Commit your changes** with a clear message
-   ```bash
-   git commit -m "feat: add sarcasm detection layer"
-   ```
-4. **Push** to your fork
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. **Open a Pull Request** against the `main` branch
-
-### Guidelines
-
-- Keep PRs focused — one feature or fix per PR
-- Add or update docstrings for any new functions
-- If you change the NLP pipeline, run the training notebook and attach updated model metrics
-- Non-English support is a known limitation and a welcome area for contribution
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
+Every tweet goes through this pipeline before prediction:
 
 ```
-MIT License
-
-Copyright (c) 2025 Nainavismi
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Raw text
+  → Emoji conversion (😭 → "loudly_crying_face")
+  → Slang replacement ("bussin" → "amazing")
+  → Apostrophe normalization ("don't" → "dont")
+  → Negation handling ("dont love" → "not_love")
+  → Lowercase
+  → Number removal
+  → Punctuation removal
+  → Stopword removal (198 words)
+  → Short word filter (< 3 chars)
+  → Lemmatization with POS tagging
+  → TF-IDF vectorization (75K features)
+  → Logistic Regression prediction
+  → Confidence threshold (< 65% → Neutral)
+  → Reliability scoring
 ```
 
 ---
 
-<p align="center">Built with ❤️ by <strong>Nainavismi</strong> · Powered by FastAPI & Streamlit</p>
+## 🎯 Reliability Score Guide
+
+| Score | Meaning |
+|-------|---------|
+| `High (Good confidence)` | Confidence ≥ 85% — strong prediction |
+| `Medium (Moderate confidence)` | Confidence 75–84% |
+| `Medium (Uncertain confidence)` | Confidence 65–74% |
+| `Low (Low confidence)` | Confidence < 65% — model is unsure |
+| `Low (Short text)` | Fewer than 4 words |
+| `Low (Sarcasm detected)` | Sarcasm signals found — prediction may be wrong |
+
+---
+
+## ⚠️ Known Limitations
+
+| Limitation | Reason | Fix |
+|-----------|--------|-----|
+| Sarcasm detection unreliable | TF-IDF has no contextual understanding | Use BERTweet |
+| Double negation fails | "not bad" → model sees "bad" | Transformer architecture |
+| English only | Trained on English tweets | Multilingual model |
+| Emoji vocabulary limited | Rare in training data | Larger training sample |
+| Cold start delay | Free tier spin-down | Mitigated by UptimeRobot |
+
+---
+
+## 🏃 Run Locally
+
+### Prerequisites
+- Python 3.12+
+- NewsAPI key (free at newsapi.org)
+
+### 1 — Clone
+```bash
+git clone https://github.com/Naina2006-Vismi/twitter-sentiment.git
+cd twitter-sentiment
+```
+
+### 2 — Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3 — Configure environment
+Create `.env` file:
+```
+NEWS_API_KEY=your_key_here
+```
+
+### 4 — Start backend
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+### 5 — Start frontend
+```bash
+streamlit run frontend/app.py
+```
+
+### 6 — Run with Docker
+```bash
+docker build -t twitter-sentiment .
+docker run -p 8000:8000 --env-file .env twitter-sentiment
+```
+
+---
+
+## 📈 Engineering Decisions
+
+### Why TF-IDF over BERT?
+
+| Factor | TF-IDF + LR | BERT/DistilBERT |
+|--------|-------------|-----------------|
+| Model size | 21 MB | 268–500 MB |
+| Inference speed | < 50ms | 200–500ms |
+| Free tier RAM (512MB) | ✅ Fits | ❌ Crashes |
+| Accuracy | 77% | 81–88% |
+| Explainability | High | Low |
+
+TF-IDF was chosen because it fits within free cloud infrastructure constraints while delivering acceptable accuracy. DistilBERT was evaluated (81.3%) and documented but not deployed.
+
+### Why FastAPI over Flask?
+
+- Auto-generated Swagger UI at `/docs`
+- Built-in Pydantic validation
+- Better performance with async support
+- Modern Python type hints
+
+### Why Render over AWS?
+
+- Zero configuration for Docker deployment
+- Free tier sufficient for demonstration
+- Auto-deploy on GitHub push (CI/CD built-in)
+- No credit card required
+
+---
+
+## 👩‍💻 Developed By
+
+**Nainavismi**
+Internship Capstone Project — 2026
+
+---
+
+*Built with FastAPI + Streamlit + Docker + Render*
